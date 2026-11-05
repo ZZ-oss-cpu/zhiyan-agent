@@ -1,0 +1,24 @@
+# ============================================================
+# 编辑器统一配置（https://editorconfig.org）
+# 主流 IDE（VSCode / PyCharm / Trae）开箱即支持，无需安装插件
+# ============================================================
+root = true
+
+[*]
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+# 前端文件：遵循 ESLint + Prettier 主流的 2 空格缩进
+[*.{js,jsx,ts,tsx,vue,html,css,json}]
+indent_size = 2
+
+# Windows 批处理必须保留 CRLF，否则可能执行异常
+[*.{bat,cmd}]
+end_of_line = crlf
+
+[*.md]
+trim_trailing_whitespace = false

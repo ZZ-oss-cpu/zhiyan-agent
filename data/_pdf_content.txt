@@ -1,0 +1,1084 @@
+﻿总页数: 15
+===== 第 1 页 =====
+TXT
+思路
+我是研究⽣，我要⾃⼰参加这个比赛，请你帮我找⼏个推荐
+的⽅案，并说明理由
+这份竞赛任务非常综合，评分标准（ Agent 技术 35% + 场景创新 25% ）极其看重技术落地
+的深度、抗幻觉机制以及复杂⼯具链协同。
+作为个⼈参赛，核⼼策略是借⼒打⼒：不要重复造轮⼦，充分利⽤现有成熟的开源基础
+设施搭建  Agent 架构，将精⼒集中在⾼分痛点（如语义去重、图算法拓扑挖掘、双向联
+动阅读、源头溯源等）。
+以下为你量⾝定制的  3 个不同侧重点的系统架构推荐⽅案及选择理由：
+⽅案⼀： Multi-Agent 分级⼯作流⽅案（推荐：冲击⾼分 / 最契合评分标准）
+1. 架构设计
+PNG
+TXT+ 2
+Agent 编排框架：采⽤  LangGraph 或  AutoGen 搭建动态图结构的  Multi-Agent 协
+作⽹络。
+ PNG
+Agent ⾓⾊分⼯：
+Router / Task Planner Agent：负责⽤户意图识别与任务拆解（如判断是 “ 单文
+细粒度问答 ” 还是 “ 跨论文演进对比 ” ）。
+ TXT+ 1
+Parser Agent：集成  MinerU (Magic-PDF) / Nougat 或  PDF-Extract-Kit
+专⻔提取  PDF 的  LaTeX 公式、双栏文本、表格及参考文献。
+ TXT+ 1
+RAG & Reasoning Agent：结合  Hybrid Search (Dense + Sparse/BM25) 与  
+Reranker (BGE-Reranker)，实现精准的段落 / 表格层级源头溯源锚点（ Source
+Tracing ）。
+ PNG
+Graph Mining Agent：使⽤  NetworkX 或  igraph 处理参考文献，计算
+PageRank 与介数中⼼性（ Betweenness Centrality ），⽣成引⽤图谱并挖掘
+“ 基⽯论文 ”。
+ TXT+ 1
+TXT
+思路
+我是研究⽣，我要⾃⼰参加这个比赛，请你帮我找⼏个推荐
+的⽅案，并说明理由
+这份竞赛任务非常综合，评分标准（ Agent 技术 35% + 场景创新 25% ）极其看重技术落地
+的深度、抗幻觉机制以及复杂⼯具链协同。
+作为个⼈参赛，核⼼策略是借⼒打⼒：不要重复造轮⼦，充分利⽤现有成熟的开源基础
+设施搭建  Agent 架构，将精⼒集中在⾼分痛点（如语义去重、图算法拓扑挖掘、双向联
+动阅读、源头溯源等）。
+以下为你量⾝定制的  3 个不同侧重点的系统架构推荐⽅案及选择理由：
+⽅案⼀： Multi-Agent 分级⼯作流⽅案（推荐：冲击⾼分 / 最契合评分标准）
+1. 架构设计
+PNG
+TXT+ 2
+Agent 编排框架：采⽤  LangGraph 或  AutoGen 搭建动态图结构的  Multi-Agent 协
+作⽹络。
+ PNG
+Agent ⾓⾊分⼯：
+Router / Task Planner Agent：负责⽤户意图识别与任务拆解（如判断是 “ 单文
+细粒度问答 ” 还是 “ 跨论文演进对比 ” ）。
+ TXT+ 1
+Parser Agent：集成  MinerU (Magic-PDF) / Nougat 或  PDF-Extract-Kit
+专⻔提取  PDF 的  LaTeX 公式、双栏文本、表格及参考文献。
+ TXT+ 1
+RAG & Reasoning Agent：结合  Hybrid Search (Dense + Sparse/BM25) 与  
+Reranker (BGE-Reranker)，实现精准的段落 / 表格层级源头溯源锚点（ Source
+Tracing ）。
+ PNG
+Graph Mining Agent：使⽤  NetworkX 或  igraph 处理参考文献，计算
+PageRank 与介数中⼼性（ Betweenness Centrality ），⽣成引⽤图谱并挖掘
+“ 基⽯论文 ”。
+ TXT+ 1
+9/28/26, 1:04 PM 研究⽣⽐赛系统⽅案推荐  - Google Gemini
+https://gemini.google.com/app/bbeb7d9141864ae2?android-min-version=301356232&ios-min-version=322.0&is_sa=1&campaign_id=gemini_ov… 1/15
+===== 第 2 页 =====
+2. 推荐理由
+⽅案⼆：知识图谱增强型  RAG ⽅案（ GraphRAG + Agent 驱动）
+1. 架构设计
+2. 推荐理由
+Code & Visualization Agent：集成  Python REPL 环境，⽤于分析  CSV 数据并
+⾃动运⾏  Matplotlib / Mermaid 绘图。
+ TXT+ 2
+前端 / 交互：Next.js + React-PDF / PDF.js，实现双栏  PDF 原位渲染与中英双
+向联动滚动。
+ TXT+ 1
+切中最⾼权重得分项（ Agent 架构  35% ）： LangGraph 原⽣⽀持状态图（ State
+Graph ），⽅便实现任务打断、⼈机交互（ Human-in-the-Loop ，如版本去重时的⽤
+户交互确认）以及多  Agent 协同路由。
+ TXT+ 1
+全流程闭环落地性强：多  Agent 职责单⼀化，避免单  Agent 上下文超载或⼯具调⽤
+混乱的问题，鲁棒性⾼。
+ PNG+ 1
+核⼼引擎：引入  GraphRAG（如  Microsoft GraphRAG 或  Fast-GraphRAG ），将文
+献库内的实体（模型、数据集、指标、作者）与引⽤关系转化为图知识库。
+ TXT
+Agent 框架：LlamaIndex (Workflows / Agents) 或  CrewAI。
+ TXT
+论文语义去重与演进：
+提取论文  Abstract 、 Method 及关键文本，⽣成  Embedding 后结合向量余弦相
+似度  + LLM 语义判断。
+ TXT+ 1
+在  GraphRAG 中建立  VERSION_OF 或  EVOLVES_TO 边（例如演进分析： v1 ->
+v7 的修订单元）。
+ TXT+ 1
+多文推理与抗幻觉：利⽤图数据库（ Neo4j 或  NetworkX 内存图）提取⻓跨度上下
+文（如  GPT-1 到  GPT-3 的演化关系），配合精准索引提供原文  Markdown 标签锚点
+。
+ TXT+ 1
+斩获场景创新分（ 25% ）：极度符合 “ 模块五：局域引⽤图谱挖掘与学术综述⽣成 ”
+的要求。把传统的向量检索升级为  GraphRAG ，能极⼤提升多文推理（ Multi-Paper
+Reasoning ）的效果，容易在答辩和技术文档中凸显创新亮点。
+ TXT+ 2
+天然解决学术洞察：通过图拓扑算法（如  Community Detection / PageRank ）可以
+非常优雅地找出基⽯节点与已被解决的旧  Idea。
+ TXT+ 1
+2. 推荐理由
+⽅案⼆：知识图谱增强型  RAG ⽅案（ GraphRAG + Agent 驱动）
+1. 架构设计
+2. 推荐理由
+Code & Visualization Agent：集成  Python REPL 环境，⽤于分析  CSV 数据并
+⾃动运⾏  Matplotlib / Mermaid 绘图。
+ TXT+ 2
+前端 / 交互：Next.js + React-PDF / PDF.js，实现双栏  PDF 原位渲染与中英双
+向联动滚动。
+ TXT+ 1
+切中最⾼权重得分项（ Agent 架构  35% ）： LangGraph 原⽣⽀持状态图（ State
+Graph ），⽅便实现任务打断、⼈机交互（ Human-in-the-Loop ，如版本去重时的⽤
+户交互确认）以及多  Agent 协同路由。
+ TXT+ 1
+全流程闭环落地性强：多  Agent 职责单⼀化，避免单  Agent 上下文超载或⼯具调⽤
+混乱的问题，鲁棒性⾼。
+ PNG+ 1
+核⼼引擎：引入  GraphRAG（如  Microsoft GraphRAG 或  Fast-GraphRAG ），将文
+献库内的实体（模型、数据集、指标、作者）与引⽤关系转化为图知识库。
+ TXT
+Agent 框架：LlamaIndex (Workflows / Agents) 或  CrewAI。
+ TXT
+论文语义去重与演进：
+提取论文  Abstract 、 Method 及关键文本，⽣成  Embedding 后结合向量余弦相
+似度  + LLM 语义判断。
+ TXT+ 1
+在  GraphRAG 中建立  VERSION_OF 或  EVOLVES_TO 边（例如演进分析： v1 ->
+v7 的修订单元）。
+ TXT+ 1
+多文推理与抗幻觉：利⽤图数据库（ Neo4j 或  NetworkX 内存图）提取⻓跨度上下
+文（如  GPT-1 到  GPT-3 的演化关系），配合精准索引提供原文  Markdown 标签锚点
+。
+ TXT+ 1
+斩获场景创新分（ 25% ）：极度符合 “ 模块五：局域引⽤图谱挖掘与学术综述⽣成 ”
+的要求。把传统的向量检索升级为  GraphRAG ，能极⼤提升多文推理（ Multi-Paper
+Reasoning ）的效果，容易在答辩和技术文档中凸显创新亮点。
+ TXT+ 2
+天然解决学术洞察：通过图拓扑算法（如  Community Detection / PageRank ）可以
+非常优雅地找出基⽯节点与已被解决的旧  Idea。
+ TXT+ 1
+9/28/26, 1:04 PM 研究⽣⽐赛系统⽅案推荐  - Google Gemini
+https://gemini.google.com/app/bbeb7d9141864ae2?android-min-version=301356232&ios-min-version=322.0&is_sa=1&campaign_id=gemini_ov… 2/15
+===== 第 3 页 =====
+⽅案三：轻量化全栈单  Agent + 强⼤⼯具链⽅案（适合⼯期紧、单⼈快速交
+付）
+1. 架构设计
+2. 推荐理由
+💡  个⼈参赛的破局与备赛建议
+Agent 核⼼：基于  ReAct 范式 / Function Calling Agent（使⽤  LangChain 或  Direct
+OpenAI/Claude API ）。
+ TXT+ 1
+后端服务：FastAPI 作为中间件，封装所有的⼯具链（ Tools ）：
+Tool 1: pdf_parser（使⽤  PyMuPDF + PaddleOCR 或  MinerU 快速切片）
+。
+ PNG
+Tool 2: arxiv_searcher & github_code_checker（通过  API 查询代码复现
+性）。
+ TXT+ 1
+Tool 3: citation_graph_builder（根据  BibTeX ⾃动⽣成  Graphviz /
+Cytoscape 图数据）。
+ TXT
+Tool 4: code_executor（ Exec python 代码⽣成  Matplotlib / TikZ 图）。
+TXT
+前端：Streamlit 或  Gradio + ⾃定义  React 组件（或直接基于  LobeChat / 
+Open WebUI 进⾏⼆次开发）。
+开发周期短，容易通跑六⼤模块：单⼈参赛时，如果多  Agent 调试耗时过⻓，容易
+导致功能缺失。此⽅案架构简单，能保证在规定时间内⾼质量通跑组委会的所有测
+试⽤例（如  541 ⻚的⼤⻓篇  PDF 、扫描件  OCR 、 CSV 转化等）。
+ TXT+ 2
+系统鲁棒性⾼（ 10% 权重）：代码耦合度低， Docker 容器化部署非常容易。
+ PNG
+推荐⾸选⽅案：⽅案⼀（ LangGraph 多  Agent 架构）。⽬前学术界和比赛评委对
+LangGraph 类型的  Agent 编排认可度极⾼，能够完美契合评分标准中的 “Task
+Planning 动态规划 ” 与 “Function Calling ⼯具集成 ” （占  35% 权重）。
+1.
+PNG
+关键突破点（抓分核⼼）：2.
+PDF 解析：强烈建议直接集成开源⼤模型文档解析神器  MinerU (Magic-
+PDF)，它对双栏、公式、表格提取效果极佳，能省去⼤量⾃⼰写  OCR 和正则
+表达式的时间。
+ TXT+ 1
+⽅案三：轻量化全栈单  Agent + 强⼤⼯具链⽅案（适合⼯期紧、单⼈快速交
+付）
+1. 架构设计
+2. 推荐理由
+💡  个⼈参赛的破局与备赛建议
+Agent 核⼼：基于  ReAct 范式 / Function Calling Agent（使⽤  LangChain 或  Direct
+OpenAI/Claude API ）。
+ TXT+ 1
+后端服务：FastAPI 作为中间件，封装所有的⼯具链（ Tools ）：
+Tool 1: pdf_parser（使⽤  PyMuPDF + PaddleOCR 或  MinerU 快速切片）
+。
+ PNG
+Tool 2: arxiv_searcher & github_code_checker（通过  API 查询代码复现
+性）。
+ TXT+ 1
+Tool 3: citation_graph_builder（根据  BibTeX ⾃动⽣成  Graphviz /
+Cytoscape 图数据）。
+ TXT
+Tool 4: code_executor（ Exec python 代码⽣成  Matplotlib / TikZ 图）。
+TXT
+前端：Streamlit 或  Gradio + ⾃定义  React 组件（或直接基于  LobeChat / 
+Open WebUI 进⾏⼆次开发）。
+开发周期短，容易通跑六⼤模块：单⼈参赛时，如果多  Agent 调试耗时过⻓，容易
+导致功能缺失。此⽅案架构简单，能保证在规定时间内⾼质量通跑组委会的所有测
+试⽤例（如  541 ⻚的⼤⻓篇  PDF 、扫描件  OCR 、 CSV 转化等）。
+ TXT+ 2
+系统鲁棒性⾼（ 10% 权重）：代码耦合度低， Docker 容器化部署非常容易。
+ PNG
+推荐⾸选⽅案：⽅案⼀（ LangGraph 多  Agent 架构）。⽬前学术界和比赛评委对
+LangGraph 类型的  Agent 编排认可度极⾼，能够完美契合评分标准中的 “Task
+Planning 动态规划 ” 与 “Function Calling ⼯具集成 ” （占  35% 权重）。
+1.
+PNG
+关键突破点（抓分核⼼）：2.
+PDF 解析：强烈建议直接集成开源⼤模型文档解析神器  MinerU (Magic-
+PDF)，它对双栏、公式、表格提取效果极佳，能省去⼤量⾃⼰写  OCR 和正则
+表达式的时间。
+ TXT+ 1
+9/28/26, 1:04 PM 研究⽣⽐赛系统⽅案推荐  - Google Gemini
+https://gemini.google.com/app/bbeb7d9141864ae2?android-min-version=301356232&ios-min-version=322.0&is_sa=1&campaign_id=gemini_ov… 3/15
+===== 第 4 页 =====
+抗幻觉  Source Tracing：在  RAG 检索返回  chunk 时，记录  PDF 的  page_num
+以及相对坐标（ Bounding Box ），前端渲染  PDF 时直接画⾼亮框。这个 “ 文本
+到  PDF 原图画框锚点 ” 的交互体验能极⼤提升  UX 评分（ 10% 权重）。
+PNG+ 3
+5-8 分钟演⽰视频：评分细则中专⻔提及  UX 、流式渲染（ Token 级）、思维链
+可视化。建议在前端加上 Agent 的 “ 思考⽇志 / ⼯具调⽤过程 ” 展开⾯板 在视
+“ ⽅案⼀：智研  Agent—— 全流程科研智能助⼿
+⼀句话定位
+从 “ 导入论文 ” 开始，⼀直到 “ 发现研究⽅向、写论文、⽣成图
+基于  ChatGPT 提出的 “ 以  1+2+4 组合拳打造全流程闭环 ” 思路，并严密对照赛事评分细则
+（ Agent 技术 35% + 场景创新 25% + ⼯程与 UI 20% + 实⽤与价值  20% ），对前述推荐⽅案
+进⾏深度迭代与重构。
+在研究⽣单⼈参赛的约束下，既要体现 “ 智研  Agent” 的全流程闭环与100% 覆盖评分点，
+⼜不能陷于⼯程量爆炸的泥潭。
+以下是为你重新打磨并重构的  3 个⾼含⾦量、可闭环落地的精细化⽅案：
+⽅案⼀：全流程科研智能助⼿架构（推荐：最契合评分表  / 冲击⼀等奖）
+1. ⽅案定位与结构
+本⽅案以 “ 智研  Agent” 为总中枢，精简整合 “ 论文侦探（ Graph Mining ） ” 、 “ 创新点发现
+（ IdeaHunter ） ” 和 “ 学术  Copilot” 三核⼼⼦系统，形成从文献导入到论文框架⽣成的端到
+端闭环。
+PNG
+TXT+ 1
+TXT
+                  ┌─────────────────────────────────┐
+                  │    智研  Agent (Task Planner)    │
+                  └────────────────┬────────────────┘
+                                   │
+      ┌────────────────────────────┼────────────────────────────┐
+      ↓                            ↓                            ↓
+
+抗幻觉  Source Tracing：在  RAG 检索返回  chunk 时，记录  PDF 的  page_num
+以及相对坐标（ Bounding Box ），前端渲染  PDF 时直接画⾼亮框。这个 “ 文本
+到  PDF 原图画框锚点 ” 的交互体验能极⼤提升  UX 评分（ 10% 权重）。
+PNG+ 3
+5-8 分钟演⽰视频：评分细则中专⻔提及  UX 、流式渲染（ Token 级）、思维链
+可视化。建议在前端加上 Agent 的 “ 思考⽇志 / ⼯具调⽤过程 ” 展开⾯板 在视
+“ ⽅案⼀：智研  Agent—— 全流程科研智能助⼿
+⼀句话定位
+从 “ 导入论文 ” 开始，⼀直到 “ 发现研究⽅向、写论文、⽣成图
+基于  ChatGPT 提出的 “ 以  1+2+4 组合拳打造全流程闭环 ” 思路，并严密对照赛事评分细则
+（ Agent 技术 35% + 场景创新 25% + ⼯程与 UI 20% + 实⽤与价值  20% ），对前述推荐⽅案
+进⾏深度迭代与重构。
+在研究⽣单⼈参赛的约束下，既要体现 “ 智研  Agent” 的全流程闭环与100% 覆盖评分点，
+⼜不能陷于⼯程量爆炸的泥潭。
+以下是为你重新打磨并重构的  3 个⾼含⾦量、可闭环落地的精细化⽅案：
+⽅案⼀：全流程科研智能助⼿架构（推荐：最契合评分表  / 冲击⼀等奖）
+1. ⽅案定位与结构
+本⽅案以 “ 智研  Agent” 为总中枢，精简整合 “ 论文侦探（ Graph Mining ） ” 、 “ 创新点发现
+（ IdeaHunter ） ” 和 “ 学术  Copilot” 三核⼼⼦系统，形成从文献导入到论文框架⽣成的端到
+端闭环。
+PNG
+TXT+ 1
+TXT
+                  ┌─────────────────────────────────┐
+                  │    智研  Agent (Task Planner)    │
+                  └────────────────┬────────────────┘
+                                   │
+      ┌────────────────────────────┼────────────────────────────┐
+      ↓                            ↓                            ↓
+
+9/28/26, 1:04 PM 研究⽣⽐赛系统⽅案推荐  - Google Gemini
+https://gemini.google.com/app/bbeb7d9141864ae2?android-min-version=301356232&ios-min-version=322.0&is_sa=1&campaign_id=gemini_ov… 4/15
+===== 第 5 页 =====
+2. 技术选型与落地路径（单⼈⾼效开发）
+3. 推荐理由（为什么能拿⾼分）
+⽅案⼆：知识图谱与引⽤演进驱动的科研  Agent （侧重：算法与场景创新）
+1. ⽅案定位与结构
+┌──────────────┐             ┌──────────────┐             ┌──────────────┐
+│  文献侦探模块  │             │   创新挖掘模块  │             │   学术  Copilot │
+│ Citation Graph │            │   Future Work │             │   Outline/TikZ │
+│ PageRank 算法 │             │   Research Gap │             │  CSV/Matplotlib │
+└──────┬───────┘             └──────┬───────┘             └──────┬───────┘
+       │                            │                            │
+       └───────────────────────────┼───────────────────────────┘
+                                   ↓
+                         ┌──────────────────┐
+                         │   引擎层与底层⼯具  │
+                         │  RAG + SourceTrace │
+                         │  MinerU/ArXiv/Code │
+                         └──────────────────┘
+Agent 中枢：采⽤  LangGraph 实现动态  Task Planning。通过  StateGraph 编排多
+Agent 协作，天然⽀持打断与  Human-in-the-Loop （如  arXiv v1 vs v7 版本的语义去
+重与交互确认）。
+ PNG+ 2
+文档解析与  RAG 溯源：集成开源神器  MinerU (Magic-PDF) 进⾏双栏及  LaTeX 公式
+解析。向量库使⽤  Qdrant 或  Chroma，保存  page_num 与段落坐标（ Bounding
+Box ），实现点击回答⾃动跳转  PDF 并亮框⾼亮（ Source Tracing 拿下  8% 权重）。
+TXT+ 3
+图拓扑与创新点提取：利⽤  Python NetworkX 构建  20+ 论文局域引⽤⽹，计算
+PageRank 筛选基⽯节点；配合  LLM 抽取  Future Work 节点并做时序对比，过滤已
+被解决的旧  Idea。
+ TXT+ 3
+代码与可视化：集成  Python REPL （ Function Calling ），⾃动读取  CSV 并运⾏
+Matplotlib ⽣成图像，输出  TikZ/Mermaid 绘图脚本。
+ TXT+ 1
+评分点  100% 覆盖：直接硬核对齐评分表  6 ⼤维度的所有细节（ Agent 35% 、场景
+创新  25% ）。
+ PNG
+演⽰故事线极佳：完美呈现 “ 提出科研问题  -> 图谱定位  -> Research Gap 挖掘  -> 论
+文框架与图表⽣成 ” 的  8 分钟流畅  Demo 闭环。
+ TXT+ 1
+2. 技术选型与落地路径（单⼈⾼效开发）
+3. 推荐理由（为什么能拿⾼分）
+⽅案⼆：知识图谱与引⽤演进驱动的科研  Agent （侧重：算法与场景创新）
+1. ⽅案定位与结构
+┌──────────────┐             ┌──────────────┐             ┌──────────────┐
+│  文献侦探模块  │             │   创新挖掘模块  │             │   学术  Copilot │
+│ Citation Graph │            │   Future Work │             │   Outline/TikZ │
+│ PageRank 算法 │             │   Research Gap │             │  CSV/Matplotlib │
+└──────┬───────┘             └──────┬───────┘             └──────┬───────┘
+       │                            │                            │
+       └───────────────────────────┼───────────────────────────┘
+                                   ↓
+                         ┌──────────────────┐
+                         │   引擎层与底层⼯具  │
+                         │  RAG + SourceTrace │
+                         │  MinerU/ArXiv/Code │
+                         └──────────────────┘
+Agent 中枢：采⽤  LangGraph 实现动态  Task Planning。通过  StateGraph 编排多
+Agent 协作，天然⽀持打断与  Human-in-the-Loop （如  arXiv v1 vs v7 版本的语义去
+重与交互确认）。
+ PNG+ 2
+文档解析与  RAG 溯源：集成开源神器  MinerU (Magic-PDF) 进⾏双栏及  LaTeX 公式
+解析。向量库使⽤  Qdrant 或  Chroma，保存  page_num 与段落坐标（ Bounding
+Box ），实现点击回答⾃动跳转  PDF 并亮框⾼亮（ Source Tracing 拿下  8% 权重）。
+TXT+ 3
+图拓扑与创新点提取：利⽤  Python NetworkX 构建  20+ 论文局域引⽤⽹，计算
+PageRank 筛选基⽯节点；配合  LLM 抽取  Future Work 节点并做时序对比，过滤已
+被解决的旧  Idea。
+ TXT+ 3
+代码与可视化：集成  Python REPL （ Function Calling ），⾃动读取  CSV 并运⾏
+Matplotlib ⽣成图像，输出  TikZ/Mermaid 绘图脚本。
+ TXT+ 1
+评分点  100% 覆盖：直接硬核对齐评分表  6 ⼤维度的所有细节（ Agent 35% 、场景
+创新  25% ）。
+ PNG
+演⽰故事线极佳：完美呈现 “ 提出科研问题  -> 图谱定位  -> Research Gap 挖掘  -> 论
+文框架与图表⽣成 ” 的  8 分钟流畅  Demo 闭环。
+ TXT+ 1
+9/28/26, 1:04 PM 研究⽣⽐赛系统⽅案推荐  - Google Gemini
+https://gemini.google.com/app/bbeb7d9141864ae2?android-min-version=301356232&ios-min-version=322.0&is_sa=1&campaign_id=gemini_ov… 5/15
+===== 第 6 页 =====
+本⽅案以  ChatGPT 的 “Paper Detective （论文侦探） ” 与 “IdeaHunter （创新点发现） ” 为
+绝对核⼼，主打 “ 图谱拓扑  + 技术演进路线  + 创新点验证 ” ，适合在图算法和多文推理上打
+出差异化。
+2. 技术选型与落地路径
+3. 推荐理由
+⽅案三：极致交互与多模态  Copilot Agent （侧重：前端体验与直观
+Demo ）
+1. ⽅案定位与结构
+本⽅案以  ChatGPT 的 “PaperMind （多模态阅读） ” 与 “Research Copilot （数据 / 写作助
+⼿） ” 为核⼼，主打⾼还原度版式阅读、中英双向联动、扫描件  OCR 与  CSV 数据可视化
+。
+2. 技术选型与落地路径
+TXT
+核⼼引擎：Fast-GraphRAG 或  LlamaIndex Graph Store + NetworkX。
+ TXT
+去重与演进链条：计算论文正文  Embedding 语义相似度，⾃动建立  EVOLVES_TO
+演化边（例如将  arXiv 1706.03762v1 与  v7 进⾏  Diff 对比，⾼亮结构修改）。
+TXT+ 1
+图算法挖掘：
+基⽯节点识别：通过介数中⼼性（ Betweenness Centrality ）与  PageRank 找出
+领域开⼭之作与核⼼衍⽣论文。
+ TXT+ 1
+Research Gap 决策树：构建 “ 问题 - 现有解法 - 未解决限制 ” 的图谱节点，提取各
+论文的  Future Work ，结合最新论文时间线⾃动剔除已解决项。
+ TXT+ 1
+前端展⽰：使⽤  Cytoscape.js 或  Echarts 渲染交互式⽹络图，点击节点可下钻下载
+论文或查看关联代码库（ GitHub 开源过滤）。
+ TXT+ 1
+场景创新分（ 25% ）轻松拉满：切中 “ 学术算法与图谱挖掘创新（ 10% ） ” 与 “ 技术⽅
+案创新（ 8% ） ”。评委能够非常直观地感受到系统是在 “ 辅助做科研决策 ” ，⽽非简
+单的 “ 文本总结 ”。
+ PNG+ 1
+避开复杂的写作排版⼯程：前端只需聚焦在图可视化与  RAG 对话，减轻全栈  UI 压
+⼒。
+ PNG+ 1
+TXT+ 1
+前端双向联动  UI：Next.js + pdfjs-dist + PDF.js。
+本⽅案以  ChatGPT 的 “Paper Detective （论文侦探） ” 与 “IdeaHunter （创新点发现） ” 为
+绝对核⼼，主打 “ 图谱拓扑  + 技术演进路线  + 创新点验证 ” ，适合在图算法和多文推理上打
+出差异化。
+2. 技术选型与落地路径
+3. 推荐理由
+⽅案三：极致交互与多模态  Copilot Agent （侧重：前端体验与直观
+Demo ）
+1. ⽅案定位与结构
+本⽅案以  ChatGPT 的 “PaperMind （多模态阅读） ” 与 “Research Copilot （数据 / 写作助
+⼿） ” 为核⼼，主打⾼还原度版式阅读、中英双向联动、扫描件  OCR 与  CSV 数据可视化
+。
+2. 技术选型与落地路径
+TXT
+核⼼引擎：Fast-GraphRAG 或  LlamaIndex Graph Store + NetworkX。
+ TXT
+去重与演进链条：计算论文正文  Embedding 语义相似度，⾃动建立  EVOLVES_TO
+演化边（例如将  arXiv 1706.03762v1 与  v7 进⾏  Diff 对比，⾼亮结构修改）。
+TXT+ 1
+图算法挖掘：
+基⽯节点识别：通过介数中⼼性（ Betweenness Centrality ）与  PageRank 找出
+领域开⼭之作与核⼼衍⽣论文。
+ TXT+ 1
+Research Gap 决策树：构建 “ 问题 - 现有解法 - 未解决限制 ” 的图谱节点，提取各
+论文的  Future Work ，结合最新论文时间线⾃动剔除已解决项。
+ TXT+ 1
+前端展⽰：使⽤  Cytoscape.js 或  Echarts 渲染交互式⽹络图，点击节点可下钻下载
+论文或查看关联代码库（ GitHub 开源过滤）。
+ TXT+ 1
+场景创新分（ 25% ）轻松拉满：切中 “ 学术算法与图谱挖掘创新（ 10% ） ” 与 “ 技术⽅
+案创新（ 8% ） ”。评委能够非常直观地感受到系统是在 “ 辅助做科研决策 ” ，⽽非简
+单的 “ 文本总结 ”。
+ PNG+ 1
+避开复杂的写作排版⼯程：前端只需聚焦在图可视化与  RAG 对话，减轻全栈  UI 压
+⼒。
+ PNG+ 1
+TXT+ 1
+前端双向联动  UI：Next.js + pdfjs-dist + PDF.js。
+9/28/26, 1:04 PM 研究⽣⽐赛系统⽅案推荐  - Google Gemini
+https://gemini.google.com/app/bbeb7d9141864ae2?android-min-version=301356232&ios-min-version=322.0&is_sa=1&campaign_id=gemini_ov… 6/15
+===== 第 7 页 =====
+3. 推荐理由
+💡  个⼈参赛的优先级与精⼒分配⽅案
+如果你想兼顾⾼分（ 35% Agent + 25% 创新）与单⼈可完成度，建议直接选择【⽅案⼀
+（全流程精简版）】，并严格按照以下阶段开发：
+实现左侧原版  PDF 与右侧译文 / 解析  Markdown 的拖动同步滚动。
+ TXT+ 1
+解析参考文献  [11]，建立  DOM 锚点实现⽆损双向跳转。
+ TXT+ 1
+多模态解析后端：采⽤  PaddleOCR / Nougat 解析扫描件  PDF ，⾼精度提取公式与
+表格（通过⽤例  1706.03762v1_img.pdf 与  541 ⻚超⻓教材）。
+ TXT+ 1
+Data Copilot：后台接入  Python 代码沙箱，⾃动接收  CSV 数据⽣成符合  LaTeX 学术
+规范的图表与  Figure Caption。
+ TXT+ 2
+答辩现场杀伤⼒极强：现场演⽰时，双向联动滚动、 OCR 复杂公式识别、 CSV ⼀键
+出图等视觉效果极其吸引眼球，能稳抓 “ 学术级  UI/UX 与交互体验（ 10% ） ” 及 “ 全栈
+⼯程质量（ 10% ） ”。
+ PNG+ 1
+测试⽤例通过率  100%：赛题预置的扫描件、百⻚⻓文本、 CSV ⽣成
+TikZ/Matplotlib 等⽤例能轻松通过（拿满业务闭环  5% 分值）。
+ TXT+ 1
+第⼀阶段（建立骨架  - 40% 精⼒）：1.
+后端基于  LangGraph 搭建路由  Agent。
+ PNG
+⽤  MinerU 实现  PDF 解析，配合  Qdrant 实现带⻚码坐标的  RAG 溯源（ Source
+Tracing ）。
+ PNG
+第⼆阶段（攻坚亮点  - 40% 精⼒）：2.
+⽤  NetworkX 处理  BibTeX/ 引⽤关系，跑通  PageRank 计算并⽤简单
+HTML/Echarts 渲染图谱。
+ TXT+ 1
+⽤  Prompt + 图谱抽取  Future Work ，实现简单的  Research Gap 分析。
+TXT+ 1
+编写⼀个  Python Exec ⼯具，实现  CSV ⾃动⽤  Matplotlib 绘图。
+ TXT+ 2
+第三阶段（包装与提交  - 20% 精⼒）：3.
+重点录制  5-8 分钟的⾼清演⽰视频（按你给出的  Demo 故事线脚本录制）。
+PNG
+3. 推荐理由
+💡  个⼈参赛的优先级与精⼒分配⽅案
+如果你想兼顾⾼分（ 35% Agent + 25% 创新）与单⼈可完成度，建议直接选择【⽅案⼀
+（全流程精简版）】，并严格按照以下阶段开发：
+实现左侧原版  PDF 与右侧译文 / 解析  Markdown 的拖动同步滚动。
+ TXT+ 1
+解析参考文献  [11]，建立  DOM 锚点实现⽆损双向跳转。
+ TXT+ 1
+多模态解析后端：采⽤  PaddleOCR / Nougat 解析扫描件  PDF ，⾼精度提取公式与
+表格（通过⽤例  1706.03762v1_img.pdf 与  541 ⻚超⻓教材）。
+ TXT+ 1
+Data Copilot：后台接入  Python 代码沙箱，⾃动接收  CSV 数据⽣成符合  LaTeX 学术
+规范的图表与  Figure Caption。
+ TXT+ 2
+答辩现场杀伤⼒极强：现场演⽰时，双向联动滚动、 OCR 复杂公式识别、 CSV ⼀键
+出图等视觉效果极其吸引眼球，能稳抓 “ 学术级  UI/UX 与交互体验（ 10% ） ” 及 “ 全栈
+⼯程质量（ 10% ） ”。
+ PNG+ 1
+测试⽤例通过率  100%：赛题预置的扫描件、百⻚⻓文本、 CSV ⽣成
+TikZ/Matplotlib 等⽤例能轻松通过（拿满业务闭环  5% 分值）。
+ TXT+ 1
+第⼀阶段（建立骨架  - 40% 精⼒）：1.
+后端基于  LangGraph 搭建路由  Agent。
+ PNG
+⽤  MinerU 实现  PDF 解析，配合  Qdrant 实现带⻚码坐标的  RAG 溯源（ Source
+Tracing ）。
+ PNG
+第⼆阶段（攻坚亮点  - 40% 精⼒）：2.
+⽤  NetworkX 处理  BibTeX/ 引⽤关系，跑通  PageRank 计算并⽤简单
+HTML/Echarts 渲染图谱。
+ TXT+ 1
+⽤  Prompt + 图谱抽取  Future Work ，实现简单的  Research Gap 分析。
+TXT+ 1
+编写⼀个  Python Exec ⼯具，实现  CSV ⾃动⽤  Matplotlib 绘图。
+ TXT+ 2
+第三阶段（包装与提交  - 20% 精⼒）：3.
+重点录制  5-8 分钟的⾼清演⽰视频（按你给出的  Demo 故事线脚本录制）。
+PNG
+9/28/26, 1:04 PM 研究⽣⽐赛系统⽅案推荐  - Google Gemini
+https://gemini.google.com/app/bbeb7d9141864ae2?android-min-version=301356232&ios-min-version=322.0&is_sa=1&campaign_id=gemini_ov… 7/15
+===== 第 8 页 =====
+撰写  30 ⻚以内的技术文档（重点突出  Agent 架构图与技术选型理由）。
+PNG “ 个⼈参赛的优先级与精⼒分配⽅案
+如果你想兼顾⾼分（ 35% Agent + 25% 创新）与单⼈可完成
+度，建议直接选择【⽅案⼀（全流程精简版）】，并严格按
+照以下阶段开发：
+为了帮助你以个⼈参赛的形式⾼质量、⾼效率地落地【⽅案⼀：全流程科研智能助⼿
+（精简版）】，以下为你梳理⼀套可操作的⼀步步落地实施指南与关键核⼼代码。
+你可以直接阅读、复制并跟随本文档的节奏逐步开发。
+智研  Agent （全流程科研助⼿）单⼈极速落地⼿册
+⼀、  第⼀阶段：底层骨架搭建（ 40% 精⼒）
+1.1 环境与依赖准备
+在本地或服务器环境创建  Python 3.10+ 虚拟环境，并安装核⼼依赖库：
+1.2 核⼼代码  1 ：带坐标与⻚码锚点的  PDF 解析与  RAG 入库
+为了满⾜评分标准中  8% 的  Source Tracing （源头溯源），我们需要在解析  PDF 时保留
+文本的  page_num（⻚码）和  bbox（坐标位置），并写入  Qdrant。
+ 
+pip install langgraph langchain langchain-openai qdrant-client pypdf matplotlib
+# 安装文档解析⼯具  MinerU (Magic-PDF)
+pip install magic-pdf[full]
+PNG+ 1
+# rag_ingestion.py
+import uuid
+from qdrant_client import QdrantClient
+from qdrant_client.models import Distance, VectorParams, PointStruct
+Bash  
+Python  
+
+撰写  30 ⻚以内的技术文档（重点突出  Agent 架构图与技术选型理由）。
+PNG “ 个⼈参赛的优先级与精⼒分配⽅案
+如果你想兼顾⾼分（ 35% Agent + 25% 创新）与单⼈可完成
+度，建议直接选择【⽅案⼀（全流程精简版）】，并严格按
+照以下阶段开发：
+为了帮助你以个⼈参赛的形式⾼质量、⾼效率地落地【⽅案⼀：全流程科研智能助⼿
+（精简版）】，以下为你梳理⼀套可操作的⼀步步落地实施指南与关键核⼼代码。
+你可以直接阅读、复制并跟随本文档的节奏逐步开发。
+智研  Agent （全流程科研助⼿）单⼈极速落地⼿册
+⼀、  第⼀阶段：底层骨架搭建（ 40% 精⼒）
+1.1 环境与依赖准备
+在本地或服务器环境创建  Python 3.10+ 虚拟环境，并安装核⼼依赖库：
+1.2 核⼼代码  1 ：带坐标与⻚码锚点的  PDF 解析与  RAG 入库
+为了满⾜评分标准中  8% 的  Source Tracing （源头溯源），我们需要在解析  PDF 时保留
+文本的  page_num（⻚码）和  bbox（坐标位置），并写入  Qdrant。
+ 
+pip install langgraph langchain langchain-openai qdrant-client pypdf matplotlib
+# 安装文档解析⼯具  MinerU (Magic-PDF)
+pip install magic-pdf[full]
+PNG+ 1
+# rag_ingestion.py
+import uuid
+from qdrant_client import QdrantClient
+from qdrant_client.models import Distance, VectorParams, PointStruct
+Bash  
+Python  
+
+9/28/26, 1:04 PM 研究⽣⽐赛系统⽅案推荐  - Google Gemini
+https://gemini.google.com/app/bbeb7d9141864ae2?android-min-version=301356232&ios-min-version=322.0&is_sa=1&campaign_id=gemini_ov… 8/15
+===== 第 9 页 =====
+from langchain_openai import OpenAIEmbeddings
+from magic_pdf.data.data_reader_record import DataReaderRecord
+# 1. 初始化  Qdrant 本地向量数据库
+qdrant = QdrantClient(path="./qdrant_db")
+embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+COLLECTION_NAME = "academic_papers"
+ifnot qdrant.collection_exists(COLLECTION_NAME):
+    qdrant.create_collection(
+        collection_name=COLLECTION_NAME,
+        vectors_config=VectorParams(size=1536, distance=Distance.COSINE),
+    )
+defingest_pdf_with_anchors(pdf_path: str, paper_id: str):
+"""
+    使⽤  MinerU 解析  PDF 并提取带⻚码坐标的文本块入库
+    """
+# 模拟  MinerU / PyMuPDF 结构化提取文本块
+# 真实场景可调⽤  magic-pdf CLI 或  API
+    extracted_chunks = [
+        {
+"text": "The Transformer uses multi-head attention to capture globa
+"page_num": 3,
+"bbox": [100, 200, 500, 250],
+"section": "3.1 Multi-Head Attention"
+        },
+        {
+"text": "We train on 8 NVIDIA P100 GPUs for 12 hours.",
+"page_num": 5,
+"bbox": [110, 400, 480, 430],
+"section": "5.1 Hardware Setup"
+        }
+    ]
+    points = []
+for chunk in extracted_chunks:
+        vector = embeddings.embed_query(chunk["text"])
+        point_id = str(uuid.uuid4())
+        payload = {
+"paper_id": paper_id,
+"text": chunk["text"],
+"page_num": chunk["page_num"],
+"bbox": chunk["bbox"],
+"section": chunk["section"]
+        }
+        points.append(PointStruct(id=point_id, vector=vector, payload=payload))
+from langchain_openai import OpenAIEmbeddings
+from magic_pdf.data.data_reader_record import DataReaderRecord
+# 1. 初始化  Qdrant 本地向量数据库
+qdrant = QdrantClient(path="./qdrant_db")
+embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+COLLECTION_NAME = "academic_papers"
+ifnot qdrant.collection_exists(COLLECTION_NAME):
+    qdrant.create_collection(
+        collection_name=COLLECTION_NAME,
+        vectors_config=VectorParams(size=1536, distance=Distance.COSINE),
+    )
+defingest_pdf_with_anchors(pdf_path: str, paper_id: str):
+"""
+    使⽤  MinerU 解析  PDF 并提取带⻚码坐标的文本块入库
+    """
+# 模拟  MinerU / PyMuPDF 结构化提取文本块
+# 真实场景可调⽤  magic-pdf CLI 或  API
+    extracted_chunks = [
+        {
+"text": "The Transformer uses multi-head attention to capture globa
+"page_num": 3,
+"bbox": [100, 200, 500, 250],
+"section": "3.1 Multi-Head Attention"
+        },
+        {
+"text": "We train on 8 NVIDIA P100 GPUs for 12 hours.",
+"page_num": 5,
+"bbox": [110, 400, 480, 430],
+"section": "5.1 Hardware Setup"
+        }
+    ]
+    points = []
+for chunk in extracted_chunks:
+        vector = embeddings.embed_query(chunk["text"])
+        point_id = str(uuid.uuid4())
+        payload = {
+"paper_id": paper_id,
+"text": chunk["text"],
+"page_num": chunk["page_num"],
+"bbox": chunk["bbox"],
+"section": chunk["section"]
+        }
+        points.append(PointStruct(id=point_id, vector=vector, payload=payload))
+9/28/26, 1:04 PM 研究⽣⽐赛系统⽅案推荐  - Google Gemini
+https://gemini.google.com/app/bbeb7d9141864ae2?android-min-version=301356232&ios-min-version=322.0&is_sa=1&campaign_id=gemini_ov… 9/15
+===== 第 10 页 =====
+1.3 核⼼代码  2 ：基于  LangGraph 的路由与任务规划  Agent
+⽤  LangGraph 搭建路由  Agent ，负责区分⽤户意图（如：问答溯源  vs 绘图请求  vs 图谱
+分析）。
+    qdrant.upsert(collection_name=COLLECTION_NAME, points=points)
+    print(f" 成功将论文  {paper_id} 解析并存入向量库！ ")
+# 测试运⾏
+if __name__ == "__main__":
+    ingest_pdf_with_anchors("1706.03762v7.pdf", paper_id="Attention_v7")
+TXT+ 1
+# agent_core.py
+from typing import TypedDict, Annotated, Sequence
+import operator
+from langchain_core.messages import BaseMessage, HumanMessage, AIMessage
+from langchain_openai import ChatOpenAI
+from langgraph.graph import StateGraph, END
+# 定义  State
+classAgentState(TypedDict):
+    messages: Annotated[Sequence[BaseMessage], operator.add]
+    next_step: str
+llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+# 1. 意图分类节点  (Task Planner)
+defrouter_node(state: AgentState):
+    last_message = state["messages"][-1].content
+    prompt = f""" 分析⽤户意图，仅返回以下选项之⼀：
+    - 'RAG': 询问论文特定细节、超参数、硬件、特定出处；
+    - 'GRAPH': 请求分析引⽤关系、领域基⽯节点、 Future Work 、研究空⽩；
+    - 'VISUAL': 请求根据  CSV ⽣成图表或绘制架构拓扑图。
+    ⽤户输入 : {last_message}
+    分类结果 :"""
+    response = llm.invoke([HumanMessage(content=prompt)]).content.strip()
+return {"next_step": response}
+# 2. RAG 溯源回答节点
+defrag_node(state: AgentState):
+Python  
+1.3 核⼼代码  2 ：基于  LangGraph 的路由与任务规划  Agent
+⽤  LangGraph 搭建路由  Agent ，负责区分⽤户意图（如：问答溯源  vs 绘图请求  vs 图谱
+分析）。
+    qdrant.upsert(collection_name=COLLECTION_NAME, points=points)
+    print(f" 成功将论文  {paper_id} 解析并存入向量库！ ")
+# 测试运⾏
+if __name__ == "__main__":
+    ingest_pdf_with_anchors("1706.03762v7.pdf", paper_id="Attention_v7")
+TXT+ 1
+# agent_core.py
+from typing import TypedDict, Annotated, Sequence
+import operator
+from langchain_core.messages import BaseMessage, HumanMessage, AIMessage
+from langchain_openai import ChatOpenAI
+from langgraph.graph import StateGraph, END
+# 定义  State
+classAgentState(TypedDict):
+    messages: Annotated[Sequence[BaseMessage], operator.add]
+    next_step: str
+llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+# 1. 意图分类节点  (Task Planner)
+defrouter_node(state: AgentState):
+    last_message = state["messages"][-1].content
+    prompt = f""" 分析⽤户意图，仅返回以下选项之⼀：
+    - 'RAG': 询问论文特定细节、超参数、硬件、特定出处；
+    - 'GRAPH': 请求分析引⽤关系、领域基⽯节点、 Future Work 、研究空⽩；
+    - 'VISUAL': 请求根据  CSV ⽣成图表或绘制架构拓扑图。
+    ⽤户输入 : {last_message}
+    分类结果 :"""
+    response = llm.invoke([HumanMessage(content=prompt)]).content.strip()
+return {"next_step": response}
+# 2. RAG 溯源回答节点
+defrag_node(state: AgentState):
+Python  
+9/28/26, 1:04 PM 研究⽣⽐赛系统⽅案推荐  - Google Gemini
+https://gemini.google.com/app/bbeb7d9141864ae2?android-min-version=301356232&ios-min-version=322.0&is_sa=1&campaign_id=gemini_o… 10/15
+===== 第 11 页 =====
+⼆、  第⼆阶段：攻坚亮点与核⼼功能（ 40% 精⼒）
+2.1 核⼼代码  3 ：基于  NetworkX 的局域引⽤图谱与  PageRank 基⽯节点挖掘
+此部分完美契合模块五（局域引⽤图谱挖掘与学术综述⽣成，场景创新占  25% ）。
+# 此处接入带溯源锚点的  RAG 逻辑
+    res = " 【来源：第  5 ⻚  Section 5.1 】训练设备为  8 张  NVIDIA P100 GPU 。 [Anchor: P
+return {"messages": [AIMessage(content=res)]}
+# 3. 路由分⽀判断
+defdecide_next(state: AgentState):
+    step = state.get("next_step", "RAG")
+if"GRAPH"in step:
+return"graph_node"
+elif"VISUAL"in step:
+return"visual_node"
+return"rag_node"
+# 4. 构建  LangGraph ⼯作流
+workflow = StateGraph(AgentState)
+workflow.add_node("router", router_node)
+workflow.add_node("rag_node", rag_node)
+# 设置边
+workflow.set_entry_point("router")
+workflow.add_conditional_edges("router", decide_next, {
+"rag_node": "rag_node",
+# 后续拓展  graph_node 和  visual_node
+})
+workflow.add_edge("rag_node", END)
+app = workflow.compile()
+TXT+ 1
+# graph_mining.py
+import networkx as nx
+import json
+defbuild_and_analyze_citation_graph(citations_data: list):
+"""
+Python  
+⼆、  第⼆阶段：攻坚亮点与核⼼功能（ 40% 精⼒）
+2.1 核⼼代码  3 ：基于  NetworkX 的局域引⽤图谱与  PageRank 基⽯节点挖掘
+此部分完美契合模块五（局域引⽤图谱挖掘与学术综述⽣成，场景创新占  25% ）。
+# 此处接入带溯源锚点的  RAG 逻辑
+    res = " 【来源：第  5 ⻚  Section 5.1 】训练设备为  8 张  NVIDIA P100 GPU 。 [Anchor: P
+return {"messages": [AIMessage(content=res)]}
+# 3. 路由分⽀判断
+defdecide_next(state: AgentState):
+    step = state.get("next_step", "RAG")
+if"GRAPH"in step:
+return"graph_node"
+elif"VISUAL"in step:
+return"visual_node"
+return"rag_node"
+# 4. 构建  LangGraph ⼯作流
+workflow = StateGraph(AgentState)
+workflow.add_node("router", router_node)
+workflow.add_node("rag_node", rag_node)
+# 设置边
+workflow.set_entry_point("router")
+workflow.add_conditional_edges("router", decide_next, {
+"rag_node": "rag_node",
+# 后续拓展  graph_node 和  visual_node
+})
+workflow.add_edge("rag_node", END)
+app = workflow.compile()
+TXT+ 1
+# graph_mining.py
+import networkx as nx
+import json
+defbuild_and_analyze_citation_graph(citations_data: list):
+"""
+Python  
+9/28/26, 1:04 PM 研究⽣⽐赛系统⽅案推荐  - Google Gemini
+https://gemini.google.com/app/bbeb7d9141864ae2?android-min-version=301356232&ios-min-version=322.0&is_sa=1&campaign_id=gemini_o… 11/15
+===== 第 12 页 =====
+2.2 核⼼代码  4 ： CSV ⾃动读取与  Python/Matplotlib 智能绘图沙箱
+此部分对应模块六（学术  Copilot 与数据可视化）。
+    citations_data 结构⽰例 :
+    [
+      {"source": "Paper_A", "target": "Attention_1706.03762"},
+      {"source": "Paper_B", "target": "Attention_1706.03762"},
+      {"source": "Paper_C", "target": "Paper_A"}
+    ]
+    """
+    G = nx.DiGraph()
+for item in citations_data:
+        G.add_edge(item["source"], item["target"])
+# 计算  PageRank 挑选基⽯论文
+    pagerank_scores = nx.pagerank(G, alpha=0.85)
+    sorted_papers = sorted(pagerank_scores.items(), key=lambda x: x[1], reverse
+# 提取核⼼基⽯节点（排名最⾼的论文）
+    cornerstone_papers = sorted_papers[-2:]
+# 导出为前端  Cytoscape.js / Echarts 可⽤的  JSON 格式
+    graph_json = {
+"nodes": [{"id": node, "label": node, "val": pagerank_scores[node] * 10
+"edges": [{"source": edge[0], "target": edge[1]} for edge in G.edges()]
+    }
+return {
+"cornerstones": cornerstone_papers,
+"graph_data": graph_json
+    }
+# 测试数据
+test_citations = [
+    {"source": "BERT_2018", "target": "Transformer_2017"},
+    {"source": "GPT1_2018", "target": "Transformer_2017"},
+    {"source": "ViT_2020", "target": "Transformer_2017"},
+    {"source": "RoBERTa_2019", "target": "BERT_2018"}
+]
+result = build_and_analyze_citation_graph(test_citations)
+print(" 基⽯论文挖掘结果 :", result["cornerstones"])
+TXT+ 1
+2.2 核⼼代码  4 ： CSV ⾃动读取与  Python/Matplotlib 智能绘图沙箱
+此部分对应模块六（学术  Copilot 与数据可视化）。
+    citations_data 结构⽰例 :
+    [
+      {"source": "Paper_A", "target": "Attention_1706.03762"},
+      {"source": "Paper_B", "target": "Attention_1706.03762"},
+      {"source": "Paper_C", "target": "Paper_A"}
+    ]
+    """
+    G = nx.DiGraph()
+for item in citations_data:
+        G.add_edge(item["source"], item["target"])
+# 计算  PageRank 挑选基⽯论文
+    pagerank_scores = nx.pagerank(G, alpha=0.85)
+    sorted_papers = sorted(pagerank_scores.items(), key=lambda x: x[1], reverse
+# 提取核⼼基⽯节点（排名最⾼的论文）
+    cornerstone_papers = sorted_papers[-2:]
+# 导出为前端  Cytoscape.js / Echarts 可⽤的  JSON 格式
+    graph_json = {
+"nodes": [{"id": node, "label": node, "val": pagerank_scores[node] * 10
+"edges": [{"source": edge[0], "target": edge[1]} for edge in G.edges()]
+    }
+return {
+"cornerstones": cornerstone_papers,
+"graph_data": graph_json
+    }
+# 测试数据
+test_citations = [
+    {"source": "BERT_2018", "target": "Transformer_2017"},
+    {"source": "GPT1_2018", "target": "Transformer_2017"},
+    {"source": "ViT_2020", "target": "Transformer_2017"},
+    {"source": "RoBERTa_2019", "target": "BERT_2018"}
+]
+result = build_and_analyze_citation_graph(test_citations)
+print(" 基⽯论文挖掘结果 :", result["cornerstones"])
+TXT+ 1
+9/28/26, 1:04 PM 研究⽣⽐赛系统⽅案推荐  - Google Gemini
+https://gemini.google.com/app/bbeb7d9141864ae2?android-min-version=301356232&ios-min-version=322.0&is_sa=1&campaign_id=gemini_o… 12/15
+===== 第 13 页 =====
+三、  第三阶段：成果包装与材料提交（ 20% 精⼒）
+在此阶段，请严格对照作品提交要求与评分标准进⾏材料整理：
+3.1 5~8 分钟演⽰视频拍摄脚本设计
+请按照以下时间节点录制  1080p 视频（配普通话讲解与字幕）：
+ 
+# python_executor.py
+import pandas as pd
+import matplotlib.pyplot as plt
+import io
+import base64
+defexecute_data_visualization(csv_path: str, user_instruction: str):
+"""
+    ⾃动解析  CSV 并执⾏绘图代码
+    """
+    df = pd.read_csv(csv_path)
+# 模拟由  LLM 根据  user_instruction ⽣成的  Python 绘图代码
+    plt.figure(figsize=(8, 5))
+    plt.plot(df['Epoch'], df['Accuracy'], marker='o', color='b', label='Propose
+    plt.title("Model Convergence Analysis", fontsize=14)
+    plt.xlabel("Training Epochs")
+    plt.ylabel("Accuracy (%)")
+    plt.grid(True)
+    plt.legend()
+# 将⽣成的图片转为  Base64 以供前端直接渲染
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight')
+    buf.seek(0)
+    img_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
+    plt.close()
+return {
+"image_base64": img_base64,
+"caption": "Figure 1: Training accuracy progression over 10 epochs show
+    }
+PNG+ 1
+PNG
+Python  
+三、  第三阶段：成果包装与材料提交（ 20% 精⼒）
+在此阶段，请严格对照作品提交要求与评分标准进⾏材料整理：
+3.1 5~8 分钟演⽰视频拍摄脚本设计
+请按照以下时间节点录制  1080p 视频（配普通话讲解与字幕）：
+ 
+# python_executor.py
+import pandas as pd
+import matplotlib.pyplot as plt
+import io
+import base64
+defexecute_data_visualization(csv_path: str, user_instruction: str):
+"""
+    ⾃动解析  CSV 并执⾏绘图代码
+    """
+    df = pd.read_csv(csv_path)
+# 模拟由  LLM 根据  user_instruction ⽣成的  Python 绘图代码
+    plt.figure(figsize=(8, 5))
+    plt.plot(df['Epoch'], df['Accuracy'], marker='o', color='b', label='Propose
+    plt.title("Model Convergence Analysis", fontsize=14)
+    plt.xlabel("Training Epochs")
+    plt.ylabel("Accuracy (%)")
+    plt.grid(True)
+    plt.legend()
+# 将⽣成的图片转为  Base64 以供前端直接渲染
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight')
+    buf.seek(0)
+    img_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
+    plt.close()
+return {
+"image_base64": img_base64,
+"caption": "Figure 1: Training accuracy progression over 10 epochs show
+    }
+PNG+ 1
+PNG
+Python  
+9/28/26, 1:04 PM 研究⽣⽐赛系统⽅案推荐  - Google Gemini
+https://gemini.google.com/app/bbeb7d9141864ae2?android-min-version=301356232&ios-min-version=322.0&is_sa=1&campaign_id=gemini_o… 13/15
+===== 第 14 页 =====
+3.2 30 ⻚技术文档编写⼤纲（ PDF 格式）
+请确保技术文档包含以下核⼼章节（满⾜提交要求）：
+0:00 - 1:00 （痛点与亮点）：展⽰系统名称 “ 智研  Agent” ，⼀句话介绍 “ 基于
+LangGraph 的全流程抗幻觉科研智能助⼿ ”。
+ TXT+ 1
+1:00 - 2:30 （模块⼀ / ⼆ / 三演⽰）：
+演⽰  PDF 导入与语义版本去重（ arXiv v1 vs v7 ）。
+ TXT+ 1
+提问论文细节，展⽰ “ 点击回答锚点， PDF 原图⾼亮跳转 ” （ Source Tracing 亮
+点）。
+ TXT+ 1
+2:30 - 4:30 （模块四 / 五演⽰）：
+展⽰  20 篇论文⾃动⽣成的拓扑⽹络图，演⽰通过  PageRank 计算出的 “ 基⽯论
+文 ”。
+ TXT+ 1
+展⽰  Agent ⾃动总结的  Future Work 列表与过滤已被解决旧  Idea 的过程。
+TXT+ 1
+4:30 - 6:30 （模块六演⽰）：
+上传  CSV 文件， Agent 运⾏  Python ⾃动输出精美  Matplotlib 图像与  LaTeX 图
+注。
+ TXT+ 1
+根据  Idea ⾃动⼀键⽣成完整的  Markdown 论文框架。
+ TXT
+6:30 - 7:30 （总结与架构）：切回  Agent 思考⽇志⾯板，展现  LangGraph 路由与代
+码鲁棒性。
+ PNG+ 1
+PNG
+项⽬概述与科研痛点分析（ AI4S 背景、去重 / 溯源 / 图谱需求）1. TXT
+系统总体架构设计（ LangGraph 节点图、前后端解耦架构图）2. PNG+ 1
+核⼼  AI 技术⽅案与选型理由（重点阐述为何选  LangGraph 、 MinerU 、 Qdrant 、
+NetworkX ）
+3.
+PNG
+关键模块实现与代码解析：4.
+带坐标锚点的抗幻觉  RAG 机制
+PNG
+基于图论算法（ PageRank ）的基⽯节点挖掘
+TXT+ 1
+Python 代码沙箱与数据可视化
+TXT
+3.2 30 ⻚技术文档编写⼤纲（ PDF 格式）
+请确保技术文档包含以下核⼼章节（满⾜提交要求）：
+0:00 - 1:00 （痛点与亮点）：展⽰系统名称 “ 智研  Agent” ，⼀句话介绍 “ 基于
+LangGraph 的全流程抗幻觉科研智能助⼿ ”。
+ TXT+ 1
+1:00 - 2:30 （模块⼀ / ⼆ / 三演⽰）：
+演⽰  PDF 导入与语义版本去重（ arXiv v1 vs v7 ）。
+ TXT+ 1
+提问论文细节，展⽰ “ 点击回答锚点， PDF 原图⾼亮跳转 ” （ Source Tracing 亮
+点）。
+ TXT+ 1
+2:30 - 4:30 （模块四 / 五演⽰）：
+展⽰  20 篇论文⾃动⽣成的拓扑⽹络图，演⽰通过  PageRank 计算出的 “ 基⽯论
+文 ”。
+ TXT+ 1
+展⽰  Agent ⾃动总结的  Future Work 列表与过滤已被解决旧  Idea 的过程。
+TXT+ 1
+4:30 - 6:30 （模块六演⽰）：
+上传  CSV 文件， Agent 运⾏  Python ⾃动输出精美  Matplotlib 图像与  LaTeX 图
+注。
+ TXT+ 1
+根据  Idea ⾃动⼀键⽣成完整的  Markdown 论文框架。
+ TXT
+6:30 - 7:30 （总结与架构）：切回  Agent 思考⽇志⾯板，展现  LangGraph 路由与代
+码鲁棒性。
+ PNG+ 1
+PNG
+项⽬概述与科研痛点分析（ AI4S 背景、去重 / 溯源 / 图谱需求）1. TXT
+系统总体架构设计（ LangGraph 节点图、前后端解耦架构图）2. PNG+ 1
+核⼼  AI 技术⽅案与选型理由（重点阐述为何选  LangGraph 、 MinerU 、 Qdrant 、
+NetworkX ）
+3.
+PNG
+关键模块实现与代码解析：4.
+带坐标锚点的抗幻觉  RAG 机制
+PNG
+基于图论算法（ PageRank ）的基⽯节点挖掘
+TXT+ 1
+Python 代码沙箱与数据可视化
+TXT
+9/28/26, 1:04 PM 研究⽣⽐赛系统⽅案推荐  - Google Gemini
+https://gemini.google.com/app/bbeb7d9141864ae2?android-min-version=301356232&ios-min-version=322.0&is_sa=1&campaign_id=gemini_o… 14/15
+===== 第 15 页 =====
+四、  导出与存档指南
+为了⽅便你后续随时查阅或离线保存本文档：
+测试⽤例验证与鲁棒性表现（展⽰  1706.03762v1/v7 版本对比及  541 ⻚超⻓文本运⾏
+截图）
+5.
+TXT+ 1
+项⽬创新点说明与推⼴价值6.
+PNG
+复制保存为  Markdown：你可以直接选择复制当前⻚⾯的所有文字，在本地新建⼀
+个  README.md 或  智研 Agent_ 开发⼿册 .md 文件并粘贴保存。
+1.
+导出为  PDF/Word 格式：2.
+如果你使⽤的是⽀持  Markdown 预览的编辑器（如  VS Code 、 Obsidian 、
+Typora ）：点击菜单栏的  File -> Export -> PDF 即可导出为⾼质量的排版
+文档。
+如果你在浏览器中查看：可直接按下快捷键  Ctrl + P（ Mac 上为  Cmd + P
+），选择 “ 另存为  PDF” 即可完成本地存档。
+四、  导出与存档指南
+为了⽅便你后续随时查阅或离线保存本文档：
+测试⽤例验证与鲁棒性表现（展⽰  1706.03762v1/v7 版本对比及  541 ⻚超⻓文本运⾏
+截图）
+5.
+TXT+ 1
+项⽬创新点说明与推⼴价值6.
+PNG
+复制保存为  Markdown：你可以直接选择复制当前⻚⾯的所有文字，在本地新建⼀
+个  README.md 或  智研 Agent_ 开发⼿册 .md 文件并粘贴保存。
+1.
+导出为  PDF/Word 格式：2.
+如果你使⽤的是⽀持  Markdown 预览的编辑器（如  VS Code 、 Obsidian 、
+Typora ）：点击菜单栏的  File -> Export -> PDF 即可导出为⾼质量的排版
+文档。
+如果你在浏览器中查看：可直接按下快捷键  Ctrl + P（ Mac 上为  Cmd + P
+），选择 “ 另存为  PDF” 即可完成本地存档。
+9/28/26, 1:04 PM 研究⽣⽐赛系统⽅案推荐  - Google Gemini
+https://gemini.google.com/app/bbeb7d9141864ae2?android-min-version=301356232&ios-min-version=322.0&is_sa=1&campaign_id=gemini_o… 15/15

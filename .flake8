@@ -1,0 +1,19 @@
+# ============================================================
+# Flake8 静态检查配置（PEP 8）
+# 用法：.venv\Scripts\python.exe -m flake8 src front_window
+# ============================================================
+[flake8]
+max-line-length = 100
+# E203/W503 与 Black 格式化风格冲突，按官方建议关闭
+extend-ignore = E203, W503
+exclude =
+    .venv,
+    models,
+    过程文档,
+    __pycache__,
+    front_window/components
+per-file-ignores =
+    # agent.py 刻意延迟 import（可选依赖降级）与动态函数绑定
+    src/agent.py: E402, F401, F841
+    # app.py 需先调整 sys.path 再 import 后端模块
+    front_window/app.py: E402

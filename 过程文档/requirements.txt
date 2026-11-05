@@ -1,0 +1,34 @@
+# ============================================================
+# 智研 Agent（方案一：全流程科研智能助手）依赖清单
+# Python >= 3.10
+# ============================================================
+
+# ---- Agent 编排与 LLM ----
+langgraph>=0.2.0          # 多 Agent 状态图编排（路由 / HITL 打断 / checkpointer）
+langchain>=0.3.0          # LLM 抽象层
+langchain-core>=0.3.0     # 消息类型与基础组件
+langchain-openai>=0.2.0   # ChatOpenAI / OpenAIEmbeddings（兼容 DeepSeek 等 base_url 接口）
+
+# ---- RAG 溯源（Source Tracing.py）----
+qdrant-client>=1.11.0     # 本地向量库，存储 page_num / bbox 锚点
+pymupdf>=1.24.0           # PyMuPDF(fitz)：提取带坐标的 PDF 文本块
+fastembed>=0.4.2          # 本地语义 Embedding（ONNX Runtime，CPU 可跑、无需 torch、可离线）
+                          # 默认模型 paraphrase-multilingual-MiniLM-L12-v2（384 维，中英互查）
+                          # 未安装时自动回退本地哈希向量，流程仍可跑通（检索精度较低）
+rapidocr>=3.0             # 扫描件 OCR（PP-OCR 的 ONNX 轻量版，CPU 离线可跑）；
+                          # 旧包名 rapidocr-onnxruntime 亦可；未安装时原生 PDF 不受影响
+# pix2tex>=0.1.1          # 可选：公式视觉 LaTeX 还原（LaTeX-OCR，含 torch CPU 约 1GB）。
+                          # 未安装时公式侧栏自动回退 Unicode 规则还原，功能不受影响；
+                          # 设 ENABLE_LATEX_OCR=off 可彻底禁用视觉层
+
+# ---- 图谱挖掘（graph and generation.py）----
+networkx>=3.0             # PageRank / 介数中心性 / 引用图谱构建
+
+# ---- 数据可视化（visualization.py）----
+pandas>=2.0               # CSV 读取与数值列识别
+matplotlib>=3.7           # Agg 后端绘图，输出 Base64
+
+# ---- Web 前端（front_window/app.py，一键启动必需）----
+fastapi>=0.110            # HTTP 服务与文件上传（20 个路由）
+uvicorn>=0.29             # ASGI 服务器（python app.py / start.bat 调用）
+python-multipart>=0.0.9   # UploadFile 表单解析（PDF / CSV / BibTeX 上传）

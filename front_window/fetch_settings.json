@@ -1,0 +1,41 @@
+{
+  "keywords": "skeleton-based of action recognition",
+  "sources": [
+    "arxiv",
+    "pubmed",
+    "custom"
+  ],
+  "custom_api_url": "",
+  "custom_sources": [
+    {
+      "id": "src_1793629153494",
+      "name": "DOAJ",
+      "url": "https://doaj.org/api/search/articles/{query}?pageSize={limit}",
+      "api_key": "",
+      "doc_url": "https://doaj.org/api/v3/docs",
+      "days": 0
+    },
+    {
+      "id": "src_1793631213860",
+      "name": "OpenAlex",
+      "url": "https://api.openalex.org/works?search={query}&filter=from_publication_date:{from}&per-page={limit}",
+      "api_key": "",
+      "doc_url": "https://docs.openalex.org/api-entities/works",
+      "days": 0
+    },
+    {
+      "id": "src_1793631266421",
+      "name": "Semantic Scholar",
+      "url": "https://api.semanticscholar.org/graph/v1/paper/search?query={query}&limit={limit}&fields=title,abstract,venue,year,publicationDate,authors,openAccessPdf,externalIds",
+      "api_key": "",
+      "doc_url": "https://api.semanticscholar.org/api-docs/graph",
+      "days": 30
+    }
+  ],
+  "custom_source_ids": [
+    "src_1793629153494",
+    "src_1793631213860",
+    "src_1793631266421"
+  ],
+  "custom_source_id": "src_1793629153494"
+}

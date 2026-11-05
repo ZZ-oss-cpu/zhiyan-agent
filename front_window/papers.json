@@ -1,0 +1,84 @@
+[
+  {
+    "paper_id": "Attention Is All You Needv1",
+    "filename": "Attention Is All You Needv1.pdf",
+    "chunks": 185,
+    "time": "2026-09-30 15:54",
+    "version": "v2",
+    "diff": "--- Attention Is All You Needv7\n+++ Attention Is All You Needv1\n@@ -1 +1 @@\n-Provided proper attribution is provided, Google hereby grants permission to reproduce the tables and figures in this paper solely for use in journalistic or Google Brain avaswani@google.com Niki Parmar∗ Google Research nikip@google.com Jakob Uszkoreit∗ Google Research usz@google.com Llion Jones∗ Google Research llion@google.com Aidan N. Gomez∗† University of Toronto aidan@cs.toronto.edu Google Brain lukaszkaiser@google.com Illia Polosukhin∗‡ illia.polosukhin@gmail.com The dominant sequence transduction models are based on complex recurrent or convolutional neural networks that include an encoder and a decoder. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English- to-German translation task, improving over the existing best results, including ensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task, our model establishes a new single-model state-of-the-art BLEU score of 41.8 after training for 3.5 days on eight GPUs, a small fraction of the training costs of the best models from the literature. We show that the Transformer generalizes well to other tasks by applying it successfully to English constituency parsing both with large and limited training data. ∗Equal contribution. Listing order is random. Jakob proposed replacing RNNs with self-attention and started the effort to evaluate this idea. Ashish, with Illia, designed and implemented the first Transformer models and has been crucially involved in every aspect of this work. Noam proposed scaled dot-product attention, multi-head attention and the parameter-free position representation and became the other person involved in nearly every detail. Niki designed, implemented, tuned and evaluated countless model variants in our original codebase and tensor2tensor. Llion also experimented with novel model variants, was responsible for our initial codebase, and efficient inference and visualizations. Lukasz and Aidan spent countless long days designing various parts of and implementing tensor2tensor, replacing our earlier codebase, greatly improving results and massively accelerating our research.\n+Google Brain avaswani@google.com Niki Parmar∗ Google Research nikip@google.com Jakob Uszkoreit∗ Google Research usz@google.com Llion Jones∗ Google Research llion@google.com Aidan N. Gomez∗† University of Toronto aidan@cs.toronto.edu Google Brain lukaszkaiser@google.com Illia Polosukhin∗ illia.polosukhin@gmail.com The dominant sequence transduction models are based on complex recurrent or convolutional neural networks in an encoder-decoder conﬁguration. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring signiﬁcantly less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English- to-German translation task, improving over the existing best results, including ensembles by over 2 BLEU. On the WMT 2014 English-to-French translation task, our model establishes a new single-model state-of-the-art BLEU score of 41.0 after training for 3.5 days on eight GPUs, a small fraction of the training costs of the best models from the literature. We show that the Transformer generalizes well to other tasks by applying it successfully to English constituency parsing both with large and limited training data. Recurrent neural networks, long short-term memory [12] and gated recurrent [7] neural networks in particular, have been ﬁrmly established as state of the art approaches in sequence modeling and transduction problems such as language modeling and machine translation [31, 2, 5]. Numerous efforts have since continued to push the boundaries of recurrent language models and encoder-decoder architectures [34, 22, 14]. Recurrent models typically factor computation along the symbol positions of the input and output sequences. Aligning the positions to steps in computation time, they generate a sequence of hidden states ht, as a function of the previous hidden state ht−1 and the input for position t. This inherently sequential nature precludes parallelization within training examples, which becomes critical at longer sequence lengths, as memory constraints limit batching across examples. Recent work has achieved signiﬁcant improvements in computational efﬁciency through factorization tricks [19] and conditional",
+    "diff_summary": "修订统计：新增 1 行 / 删除 1 行。\n1. **作者与贡献说明调整**：新版本删除了旧版中关于作者贡献的详细描述（如Jakob提出用自注意力替代RNN、Ashish与Illia设计实现首个Transformer模型等），并移除了“*Equal contribution. Listing order is random.”的声明，同时将Illia Polosukhin的标注从“‡”改为“*”，作者信息部分更简洁。\n\n2. **英法翻译任务结果修正**：新版本将英法翻译任务的BLEU分数从旧版的41.8下调至41.0，但保留了训练时间（3.5天/8块GPU）和“单模型最优”的表述，表明实验数据或评估标准有所更新。\n\n3. **文本表述微调**：新版本将旧版中“recurrent or convolutional neural networks that include an encoder and a decoder”改为“in an encoder-decoder configuration”，并删除了“including ensembles”后的逗号，使句子结构更紧凑，但核心方法描述（基于纯注意力机制、无需循环和卷积）未变。\n\n4. **摘要结尾截断**：新版本在“English constituency pa”处截断，未包含旧版中关于“large and limited training data”的完整表述，可能因版本差异导致内容不完整，但整体研究范围（机器翻译和句法解析）保持一致。",
+    "title": "Attention Is All You Need"
+  },
+  {
+    "paper_id": "Attention Is All You Needv7",
+    "filename": "Attention Is All You Needv7.pdf",
+    "chunks": 200,
+    "time": "2026-09-30 15:54",
+    "version": "v1",
+    "title": "Attention Is All You Need"
+  },
+  {
+    "paper_id": "5-cvprSun_Exploring_Adaptive_Masked_Reconstruction_for_Self-Supervised_Skeleton-Based_Action_Recognition_CVPR_2026_paper",
+    "filename": "5-cvprSun_Exploring_Adaptive_Masked_Reconstruction_for_Self-Supervised_Skeleton-Based_Action_Recognition_CVPR_2026_paper.pdf",
+    "chunks": 140,
+    "time": "2026-09-30 16:37",
+    "version": "v1",
+    "title": "Exploring Adaptive Masked Reconstruction for Self-Supervised"
+  },
+  {
+    "paper_id": "6cvpr-Wang_Superman_Unifying_Skeleton_and_Vision_for_Human_Motion_Perception_and_CVPR_2026_paper",
+    "filename": "6cvpr-Wang_Superman_Unifying_Skeleton_and_Vision_for_Human_Motion_Perception_and_CVPR_2026_paper.pdf",
+    "chunks": 161,
+    "time": "2026-09-30 16:37",
+    "version": "v1",
+    "title": "Superman: Unifying Skeleton and Vision for Human Motion Perception and Generation"
+  },
+  {
+    "paper_id": "7cvpr-Yang_PRISM_Learning_a_Shared_Primitive_Space_for_Transferable_Skeleton_Action_CVPR_2026_paper",
+    "filename": "7cvpr-Yang_PRISM_Learning_a_Shared_Primitive_Space_for_Transferable_Skeleton_Action_CVPR_2026_paper.pdf",
+    "chunks": 178,
+    "time": "2026-09-30 16:37",
+    "version": "v1",
+    "title": "PRISM: Learning a Shared Primitive Space for Transferable Skeleton Action"
+  },
+  {
+    "paper_id": "8cvpr-Zhou_Gamba_Mamba-based_graph_convolutional_network_with_dynamic_graph_topology_learning_CVPR_2026_paper",
+    "filename": "8cvpr-Zhou_Gamba_Mamba-based_graph_convolutional_network_with_dynamic_graph_topology_learning_CVPR_2026_paper.pdf",
+    "chunks": 136,
+    "time": "2026-09-30 16:37",
+    "version": "v1",
+    "title": "Gamba: Mamba-based graph convolutional network with dynamic graph"
+  },
+  {
+    "paper_id": "UnderstandingDeepLearning_02_09_26_C",
+    "filename": "UnderstandingDeepLearning_02_09_26_C.pdf",
+    "chunks": 6139,
+    "time": "2026-09-30 16:42",
+    "version": "v1",
+    "title": "Understanding Deep Learning"
+  },
+  {
+    "paper_id": "Multicomplexes in Action: Strong Formality of Compact Hyperkähler Manifolds",
+    "filename": "Multicomplexes in Action_ Strong Formality of Compact Hyperkähler Manifolds.pdf",
+    "chunks": 243,
+    "time": "2026-11-01 20:30",
+    "version": "v1",
+    "title": "MULTICOMPLEXES IN ACTION: STRONG FORMALITY OF COMPACT HYPERKÄHLER"
+  },
+  {
+    "paper_id": "STME-GCN: topology refinement and motion-enhanced temporal modeling for skeleton-based action recogn",
+    "filename": "STME-GCN_ topology refinement and motion-enhanced temporal modeling for skeleton.pdf",
+    "chunks": 159,
+    "time": "2026-11-02 22:17",
+    "version": "v1",
+    "title": "STME-GCN: topology refinement and motion- enhanced temporal modeling for skeleton-based action recognition"
+  },
+  {
+    "paper_id": "QCLR: A Plug-in Robustification Module via Quantization for Contrastive Learning in Self-Supervised ",
+    "filename": "QCLR_ A Plug-in Robustification Module via Quantization for Contrastive Learning.pdf",
+    "chunks": 109,
+    "time": "2026-11-02 22:18",
+    "version": "v1",
+    "title": "QCLR: A Plug-in Robustification Module via"
+  }
+]

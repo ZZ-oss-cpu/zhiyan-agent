@@ -1,0 +1,40 @@
+# ============================================================
+# Python 代码规范配置（遵循 PEP 8）
+# 覆盖工具：Black（格式化）/ isort（导入排序）/ Ruff（静态检查）
+# 用法示例：
+#   .venv\Scripts\python.exe -m black src front_window
+#   .venv\Scripts\python.exe -m isort src front_window
+#   .venv\Scripts\python.exe -m ruff check src front_window
+# ============================================================
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+extend-exclude = '''
+/(
+    \.venv
+  | models
+  | 过程文档
+  | __pycache__
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 100
+skip = [".venv", "models", "过程文档", "__pycache__"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = [".venv", "models", "过程文档", "__pycache__"]
+
+[tool.ruff.lint]
+# E/W: pycodestyle，F: Pyflakes，I: isort 导入排序
+select = ["E", "W", "F", "I"]
+
+[tool.ruff.lint.per-file-ignores]
+# agent.py 刻意在函数内延迟 import（可选依赖降级），且动态绑定子模块函数
+"src/agent.py" = ["E402", "F401", "F841"]
+# app.py 需先调整 sys.path 再 import 后端模块
+"front_window/app.py" = ["E402"]
