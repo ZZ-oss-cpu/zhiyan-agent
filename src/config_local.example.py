@@ -19,21 +19,30 @@ LLM_MODEL = "gpt-4o-mini"  # 按平台实际模型 ID 填写
 # EMBEDDING_MODEL = "Qwen3-Embedding-8B"
 # EMBEDDING_BASE_URL = "http://127.0.0.1:8001/v1"
 # EMBEDDING_API_KEY = "EMPTY"
-# EMBEDDING_QUERY_PREFIX = "Instruct: Given a web search query, retrieve relevant academic passages\nQuery:"
+# EMBEDDING_QUERY_PREFIX = (
+#     "Instruct: Given a web search query, retrieve relevant academic passages"
+#     "\nQuery:"
+# )
 # EMBEDDING_TIMEOUT = 120
 # ---- 阿里云百炼（Qwen3-Embedding 系列，API 模型 ID 为 text-embedding-v4）----
 # EMBEDDING_BACKEND = "remote"
 # EMBEDDING_MODEL = "text-embedding-v4"
 # EMBEDDING_BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
 # EMBEDDING_API_KEY = "sk-xxxxxxxx"        # bailian.console.aliyun.com 创建
-# EMBEDDING_QUERY_PREFIX = "Instruct: Given a web search query, retrieve relevant academic passages\nQuery:"
+# EMBEDDING_QUERY_PREFIX = (
+#     "Instruct: Given a web search query, retrieve relevant academic passages"
+#     "\nQuery:"
+# )
 # EMBEDDING_BATCH_SIZE = 10                # 百炼单批最多 10 条，勿调大
 # EMBEDDING_DIMENSIONS = 0                 # 0 = 默认 1024；可选 2048/1536/768/512...
 # EMBEDDING_TIMEOUT = 60
 # ---- 本机 CPU 跑 Qwen3-Embedding-0.6B（1024 维，fastembed，约 1.1GB）----
 # EMBEDDING_BACKEND = "local"
 # EMBEDDING_LOCAL_MODEL = "Qwen/Qwen3-Embedding-0.6B-Q"
-# EMBEDDING_LOCAL_QUERY_PREFIX = "Instruct: Given a web search query, retrieve relevant academic passages\nQuery:"
+# EMBEDDING_LOCAL_QUERY_PREFIX = (
+#     "Instruct: Given a web search query, retrieve relevant academic passages"
+#     "\nQuery:"
+# )
 # EMBEDDING_LOCAL_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 # EMBEDDING_CACHE_DIR = "models"      # 相对仓库根目录
 # EMBEDDING_ALLOW_DOWNLOAD = False    # 断网演示设为 False（只用已有缓存）

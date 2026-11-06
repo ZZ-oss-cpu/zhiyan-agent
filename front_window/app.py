@@ -87,6 +87,7 @@ graph_app = _agent.app
 retrieve_with_anchors = _agent.retrieve_with_anchors
 build_and_analyze_citation_graph = _agent.build_and_analyze_citation_graph
 execute_data_visualization = _agent.execute_data_visualization
+execute_data_visualization_v2 = _agent.execute_data_visualization_v2
 
 # RAG 溯源模块（PDF 入库用）；若加载失败（缺依赖）则导入功能不可用，对话仍可跑
 _rag_mod = getattr(_agent, "_rag", None)
@@ -569,9 +570,10 @@ async def _chat_stream(req: ChatRequest):
         resp["answer"] = (
             f"{answer}\n\n———\nReferences（绑定知识库真实文献，DOI 经 Crossref 校验）：\n{refs_text}"
         )
+        shown = "、".join(str(r["paper_id"])[:24] for r in refs[:3])
+        more = "…" if len(refs) > 3 else ""
         yield emit_log(
-            f"论文框架已生成，References 绑定 {len(refs)} 篇库内真实文献"
-            f"（{'、'.join(str(r['paper_id'])[:24] for r in refs[:3])}{'…' if len(refs) > 3 else ''}）。"
+            f"论文框架已生成，References 绑定 {len(refs)} 篇库内真实文献（{shown}{more}）。"
         )
     elif "DIAGRAM" in branch:
         # 架构拓扑图脚本：多格式代码 + 复制 / Mermaid 预览
@@ -1416,7 +1418,6 @@ def _fix_latex_spacing(text: str) -> str:
     """修复被 PDF 文本层按字距拆散的 LaTeX 命令（\\ma t hbf → \\mathbf）。"""
 
     def _join(m: "re.Match[str]") -> str:
-        joined = "\\" + m.group(0)[1:].replace(" ", "")
         # 去掉拼接串尾随的非命令部分：只验证前缀是否为已知命令
         frag = m.group(0).replace(" ", "")[1:]
         for k in range(len(frag), 2, -1):
@@ -1594,7 +1595,7 @@ def _words_to_cells(words) -> list[list[str]]:
         return []
     words = sorted(words, key=lambda w: (round(w[1], 1), w[0]))
     # 行聚类：y0 差 < 8pt 视为同一行
-    rows: list[list] = []
+    rows: list[list[Any]] = []
     cur = [words[0]]
     for w in words[1:]:
         if w[1] - cur[0][1] < 8:
@@ -1643,13 +1644,13 @@ def _detect_ruleless_tables(
     if len(hlines) < 2:
         return []
     hlines.sort()
-    merged: list[list] = []
+    merged: list[list[float]] = []
     for y, x0, x1 in hlines:
         if merged and abs(merged[-1][0] - y) < 3:
             merged[-1] = [y, min(merged[-1][1], x0), max(merged[-1][2], x1)]
         else:
             merged.append([y, x0, x1])
-    out: list = []
+    out: list[tuple[tuple[float, float, float, float], list[list[str]]]] = []
     used = list(skip)  # 内部去重：同一表格可能被表头线/底线多对组合重复命中
     for i in range(len(merged)):
         y0, x0a, x1a = merged[i]
@@ -1832,6 +1833,8 @@ def get_paper_reader(paper_id: str):
     if cached and cached[0] == mtime:
         return cached[1]
 
+    if _rag_mod is None:
+        return JSONResponse(status_code=503, content={"error": "RAG 模块未就绪，无法读取论文"})
     try:
         # min_len 用小阈值：论文标题（如 "Attention Is All You Need"）、章节标题等
         # 短块也要进翻译面板；入库检索仍用默认 30，互不影响。
@@ -2013,7 +2016,7 @@ def _match_heading_level(text: str, toc_norm: list[tuple[str, int, int]], page: 
     return 0
 
 
-def _rows_to_markdown(rows: list[list]) -> str:
+def _rows_to_markdown(rows: list[list[Any]]) -> str:
     """把表格二维列表转为 Markdown 表格（首行表头），单元格转义竖线/换行。"""
     rows = [list(r) for r in (rows or []) if any(str(c).strip() for c in r)]
     if not rows:
@@ -2030,7 +2033,7 @@ def _rows_to_markdown(rows: list[list]) -> str:
     return "\n".join(lines)
 
 
-def _table_looks_real(rows: list[list]) -> bool:
+def _table_looks_real(rows: list[list[Any]]) -> bool:
     """过滤误检的「伪表格」：无论有框线还是三线表启发式，都可能把正文/
     图内文字切成碎片行列。真表格的特征是：行列规整（矩形）、单元格短而
     成词（数值/方法名/指标名），几乎没有纯标点碎片单元格。"""
@@ -2071,6 +2074,8 @@ def _build_full_translation(paper_id: str, target_lang: str) -> dict[str, Any] |
     path = os.path.join(UPLOAD_DIR, item["filename"])
     if not os.path.exists(path):
         return None
+    if _rag_mod is None:
+        return {"error": "RAG 模块未就绪，无法翻译"}
     try:
         chunks = _rag_mod.extract_chunks_from_pdf(path, min_len=4)
     except RuntimeError as e:
@@ -2124,7 +2129,7 @@ def _build_full_translation(paper_id: str, target_lang: str) -> dict[str, Any] |
     # 表格分级导出：结构可信（检查通过）→ Markdown 表格（单元格译文）；
     # 结构可疑（列切分错位会产生乱码碎片）→ 直接嵌入区域截图（data URI，
     # 渲染永远正确）；三线表启发式检测 → 注释提示。
-    page_tables: dict[int, list[list]] = {}
+    page_tables: dict[int, list[Any]] = {}
     page_table_imgs: dict[int, list[str]] = {}
     page_ruleless: dict[int, int] = {}
     page_figs: dict[int, list[str]] = {}
@@ -2176,7 +2181,7 @@ def _build_full_translation(paper_id: str, target_lang: str) -> dict[str, Any] |
     t_fig_map: dict[tuple[int, int], str] = {}
     for key in fig_keys:
         t_fig_map[key] = next(tail_iter, "")
-    t_tables: dict[int, list[list[str]]] = {}
+    t_tables: dict[int, list[list[list[str]]]] = {}
     for p in sorted(page_tables):
         new_list: list[list[list[str]]] = []
         for rows in page_tables[p]:
@@ -2396,8 +2401,8 @@ def _summarize_revision(old_text: str, new_text: str) -> str:
     if not old_text:
         return ""
     diff = version_dedup.diff_versions(old_text, new_text)
-    adds = sum(1 for l in diff.splitlines() if l.startswith("+") and not l.startswith("+++"))
-    dels = sum(1 for l in diff.splitlines() if l.startswith("-") and not l.startswith("---"))
+    adds = sum(1 for ln in diff.splitlines() if ln.startswith("+") and not ln.startswith("+++"))
+    dels = sum(1 for ln in diff.splitlines() if ln.startswith("-") and not ln.startswith("---"))
     if adds == 0 and dels == 0:
         return "两版本开头内容完全一致，无明显修订。"
     stats = f"修订统计：新增 {adds} 行 / 删除 {dels} 行。"
@@ -2425,7 +2430,7 @@ def _summarize_revision(old_text: str, new_text: str) -> str:
 
 
 def _replace_existing_version(
-    dup: dict, chunks: list[dict[str, Any]], pid: str
+    dup: dict[str, Any], chunks: list[dict[str, Any]], pid: str
 ) -> tuple[str, str, str]:
     """覆盖为新版本：生成演进 Diff + 自然语言修订总结、清理旧向量与登记、版本号递增。
     返回 (新版本号, 原始diff, 自然语言总结)。"""
@@ -2478,11 +2483,12 @@ async def upload_paper(
     """
     if _rag_mod is None or ingest_pdf_with_anchors is None:
         return JSONResponse(status_code=503, content={"error": "RAG 模块未就绪，无法入库"})
-    if not file.filename.lower().endswith(".pdf"):
+    filename = file.filename or ""  # UploadFile.filename 允许为空，统一兜底成空串
+    if not filename.lower().endswith(".pdf"):
         return JSONResponse(status_code=400, content={"error": "仅支持 PDF 文件"})
 
-    pid = (paper_id or os.path.splitext(file.filename)[0]).strip()
-    save_path = os.path.join(UPLOAD_DIR, file.filename)
+    pid = (paper_id or os.path.splitext(filename)[0]).strip()
+    save_path = os.path.join(UPLOAD_DIR, filename)
     with open(save_path, "wb") as f:
         f.write(await file.read())
 
@@ -2532,7 +2538,7 @@ async def upload_paper(
     # 登记簿：同名 paper_id 视为重传，更新记录
     _register_pdf(
         pid,
-        file.filename,
+        filename,
         len(chunks),
         version=version,
         diff_text=diff_text,
@@ -2542,7 +2548,7 @@ async def upload_paper(
     _enrich_metadata(save_path, pid)  # PDF 元数据识别：联网补全作者/期刊/年份/DOI
     return {
         "paper_id": pid,
-        "filename": file.filename,
+        "filename": filename,
         "chunks": len(chunks),
         "version": version,
         "replaced": (
@@ -2704,7 +2710,10 @@ async def upload_batch(files: list[UploadFile] = File(...), policy: str = Form("
                     {
                         "filename": name,
                         "status": "skipped",
-                        "message": f"与「{dup['existing_paper_id']}」重复（相似度 {dup['similarity']}），已按策略保留库中版本",
+                        "message": (
+                            f"与「{dup['existing_paper_id']}」重复"
+                            f"（相似度 {dup['similarity']}），已按策略保留库中版本"
+                        ),
                         "dup": dup,
                     }
                 )
@@ -2747,12 +2756,13 @@ os.makedirs(CSV_DIR, exist_ok=True)
 @app.post("/api/upload-csv")
 async def upload_csv(file: UploadFile = File(...)):
     """上传 CSV 数据文件，返回服务端路径供后续绘图提问使用。"""
-    if not file.filename.lower().endswith(".csv"):
+    filename = file.filename or ""  # UploadFile.filename 允许为空，统一兜底成空串
+    if not filename.lower().endswith(".csv"):
         return JSONResponse(status_code=400, content={"error": "仅支持 CSV 文件"})
-    save_path = os.path.join(CSV_DIR, file.filename)
+    save_path = os.path.join(CSV_DIR, filename)
     with open(save_path, "wb") as f:
         f.write(await file.read())
-    return {"csv_path": save_path, "filename": file.filename}
+    return {"csv_path": save_path, "filename": filename}
 
 
 @app.post("/api/papers/{paper_id}/diff-summary")
@@ -2767,8 +2777,8 @@ def paper_diff_summary(paper_id: str):
         return {"diff_summary": item["diff_summary"]}
 
     diff = item["diff"]
-    adds = sum(1 for l in diff.splitlines() if l.startswith("+") and not l.startswith("+++"))
-    dels = sum(1 for l in diff.splitlines() if l.startswith("-") and not l.startswith("---"))
+    adds = sum(1 for ln in diff.splitlines() if ln.startswith("+") and not ln.startswith("+++"))
+    dels = sum(1 for ln in diff.splitlines() if ln.startswith("-") and not ln.startswith("---"))
     summary = f"修订统计：新增 {adds} 行 / 删除 {dels} 行。"
     if not getattr(_agent, "USE_MOCK_LLM", True):
         try:
@@ -2927,7 +2937,7 @@ def _load_settings() -> dict[str, Any]:
     custom_source_ids 为「参与抓取」的数据源 id 列表（可多条，同时抓取）；
     custom_source_id 仅保留向后兼容（= custom_source_ids 的第一条）。
     """
-    settings = {
+    settings: dict[str, Any] = {
         "keywords": getattr(config, "ARXIV_KEYWORDS", ""),
         "sources": ["arxiv"],
         "custom_api_url": "",
@@ -3322,7 +3332,7 @@ def fetch_latest_papers(paper_id: str = "", keywords_override: str = "") -> dict
         papers = [
             p
             for p in papers
-            if not any(_same_work(_norm_title(p.get("title")), t) for t in targets)
+            if not any(_same_work(_norm_title(str(p.get("title") or "")), t) for t in targets)
         ]
 
     result["papers"] = papers
@@ -3376,10 +3386,11 @@ def import_remote_pdf(req: RemotePdfImportRequest):
 @app.post("/api/tools/parse-bibfile")
 async def parse_bibfile(file: UploadFile = File(...)):
     """批量导入第一步：解析 RIS / BibTeX 文件，返回条目列表（含可导入标记）。"""
-    if not file.filename.lower().endswith((".ris", ".bib", ".txt")):
+    filename = file.filename or ""  # UploadFile.filename 允许为空，统一兜底成空串
+    if not filename.lower().endswith((".ris", ".bib", ".txt")):
         return JSONResponse(status_code=400, content={"error": "仅支持 .ris / .bib / .txt 文件"})
     text = (await file.read()).decode("utf-8", "ignore")
-    entries = bibparse.parse_bib_file(file.filename, text)
+    entries = bibparse.parse_bib_file(filename, text)
     # 引用含金量：文件仅含元数据、无正文，此时使用强度按中性计分（只判元数据与可核验性）
     quality = citation_quality.assess(entries)
     for i, e in enumerate(entries):

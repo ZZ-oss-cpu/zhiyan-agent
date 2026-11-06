@@ -1,14 +1,16 @@
 # python_executor.py
 # pyright 定向抑制：IDE 分析环境解释器未装依赖时误报，运行时依赖真实存在
-import pandas as pd  # pyright: ignore[reportMissingImports]
+import base64
+import io
+
 import matplotlib  # pyright: ignore[reportMissingImports]
+import pandas as pd  # pyright: ignore[reportMissingImports]
 
 matplotlib.use("Agg")  # 无界面后端：避免服务端弹窗 / 多线程绘图崩溃
 
-import matplotlib.pyplot as plt  # pyright: ignore[reportMissingImports]
-import numpy as np  # pyright: ignore[reportMissingImports]
-import io
-import base64
+# pyplot / numpy 必须在 use("Agg") 之后导入，故此处不置于文件顶部
+import matplotlib.pyplot as plt  # noqa: E402  # pyright: ignore[reportMissingImports]
+import numpy as np  # noqa: E402  # pyright: ignore[reportMissingImports]
 
 
 def execute_data_visualization(csv_path: str, user_instruction: str):
@@ -303,7 +305,6 @@ def execute_data_visualization_v2(
     want_radar = any(k in low for k in ("雷达", "radar"))
     want_3d = any(k in low for k in ("三维", "3d", "立体"))
     want_bar = any(k in low for k in ("柱", "bar"))
-    want_table = any(k in low for k in ("表格", "表", "table"))
 
     if want_radar:
         img = _render_radar(df, user_instruction)

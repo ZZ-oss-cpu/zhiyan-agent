@@ -22,7 +22,6 @@ from qdrant_client.models import (  # pyright: ignore[reportMissingImports]
 )
 
 # 加载 config.py 中的 API Key / Embedding 配置（须在实例化 Embeddings 之前执行）
-import os
 import config
 from embeddings import LocalHashEmbeddings, build_embeddings, describe
 
@@ -163,16 +162,16 @@ def _order_lines_by_columns(lines: list[dict], page_width: float) -> list[dict]:
     学术 PDF 多为双栏，纯 y 排序会把左右栏同一行交错拼接、破坏语义连贯。
     """
 
-    def by_pos(l: dict):
-        return (round(l["cy"], 1), l["x0"])
+    def by_pos(line: dict):
+        return (round(line["cy"], 1), line["x0"])
 
     if len(lines) < 4:
         return sorted(lines, key=by_pos)
-    xs = sorted(l["cx"] for l in lines)
+    xs = sorted(line["cx"] for line in lines)
     gap, split = max((xs[i + 1] - xs[i], (xs[i] + xs[i + 1]) / 2) for i in range(len(xs) - 1))
     if gap > page_width * 0.12:  # 间隙超过页宽 12% 才认为是栏间留白
-        left = [l for l in lines if l["cx"] < split]
-        right = [l for l in lines if l["cx"] >= split]
+        left = [line for line in lines if line["cx"] < split]
+        right = [line for line in lines if line["cx"] >= split]
         if len(left) >= 2 and len(right) >= 2:
             return sorted(left, key=by_pos) + sorted(right, key=by_pos)
     return sorted(lines, key=by_pos)

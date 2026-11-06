@@ -19,11 +19,11 @@ import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 
+import config  # 代理配置（HTTPS_PROXY / ALLOW_INSECURE_TLS），仅本模块学术请求定向使用
+
 ARXIV_API = "https://export.arxiv.org/api/query"
 GITHUB_API = "https://api.github.com/search/repositories"
 _UA = {"User-Agent": "zhiyan-agent/1.0 (academic research assistant)"}
-
-import config  # 代理配置（HTTPS_PROXY / ALLOW_INSECURE_TLS），仅本模块学术请求定向使用
 
 _insecure_warned = False  # 证书降级只提示一次，避免刷屏
 
